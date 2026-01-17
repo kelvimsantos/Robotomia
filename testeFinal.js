@@ -19,7 +19,7 @@ PASSO A PASSO:
 4. Copie a chave (começa com gsk_)
 5. Cole no arquivo .env:
 
-GROQ_API_KEY=sua_chave_aqui
+
 
 6. Execute novamente: node test-groq-immediate.js
     `);
