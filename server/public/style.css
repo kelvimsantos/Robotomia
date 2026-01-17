@@ -1,0 +1,147 @@
+/* =========================
+   BASE
+========================= */
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: #e5e7eb;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  text-align: center;
+  padding: 40px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #38bdf8;
+}
+
+/* =========================
+   OLHOS
+========================= */
+#eyes {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  height: 70px;
+  margin: 30px auto;
+  border-radius: 40px;
+  background: #020617;
+  border: 2px solid #38bdf8;
+  transition: all 0.3s ease;
+}
+
+.eye {
+  width: 26px;
+  height: 26px;
+  background: #38bdf8;
+  border-radius: 50%;
+  animation: blink 5s infinite;
+  transition: all 0.3s ease;
+}
+
+/* Piscar */
+@keyframes blink {
+  0%, 92%, 100% { height: 26px; }
+  95% { height: 6px; }
+}
+
+/* =========================
+   ESTADOS EMOCIONAIS
+========================= */
+#eyes.happy .eye {
+  transform: scale(1.2);
+  background: #4ade80;
+}
+
+#eyes.stressed .eye {
+  transform: skewX(12deg);
+  background: #f87171;
+  animation-duration: 2s;
+}
+
+#eyes.tired .eye {
+  opacity: 0.4;
+  transform: scaleY(0.8);
+  animation-duration: 8s;
+}
+
+#eyes.neutral .eye {
+  background: #38bdf8;
+}
+
+/* =========================
+   STATUS
+========================= */
+#status {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+#status div {
+  min-width: 110px;
+  background: #020617;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+  font-size: 0.95rem;
+}
+
+
+/* =========================
+   INPUT / BOTÃO
+========================= */
+input {
+  width: 60%;
+  max-width: 520px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+button {
+  margin-left: 10px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #38bdf8;
+  color: #020617;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0ea5e9;
+}
+
+/* =========================
+   RESPOSTA
+========================= */
+#response {
+  margin-top: 30px;
+  background: #020617;
+  padding: 22px;
+  border-radius: 14px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: pre-wrap;
+}
+
+#eyes {
+  overflow: hidden;
+}
+
+#eyes.stressed {
+  box-shadow: 0 0 20px rgba(248,113,113,0.4);
+}
+
+#eyes.happy {
+  box-shadow: 0 0 20px rgba(74,222,128,0.4);
+}

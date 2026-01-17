@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= robotName %></title>
+  <link rel="stylesheet" href="/style.css" />
+ 
+</head>
+<body>
+
+  <h1><%= robotName %></h1>
+
+  <!--<div id="eyes" class="normal"></div>-->
+
+  <div id="eyes" class="neutral">
+  <div class="eye"></div>
+  <div class="eye"></div>
+</div>
+
+  <div id="status">
+    <div>😊 Felicidade: <span id="happiness">0</span></div>
+    <div>⚡ Energia: <span id="energy">0</span></div>
+    <div>😣 Estresse: <span id="stress">0</span></div>
+  </div>
+
+  <input id="input" placeholder="Fale com o robô..." />
+  <button onclick="send()">Enviar</button>
+
+  <pre id="response"></pre>
+
+  <script src="/script.js"></script>
+</body>
+</html>
