@@ -132,6 +132,12 @@ button:hover {
   margin-left: auto;
   margin-right: auto;
   white-space: pre-wrap;
+  text-align: left;
+  min-height: 120px;
+  max-height: 340px;      /* campo maior com scroll */
+  overflow-y: auto;
+  border: 1px solid #1e293b;
+  line-height: 1.6;
 }
 
 #eyes {

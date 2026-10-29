@@ -23,7 +23,7 @@ window.send = async function() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message })
     });
-    
+
     console.log('📥 Status:', res.status);
     
     if (!res.ok) {
@@ -32,14 +32,17 @@ window.send = async function() {
     
     const data = await res.json();
     console.log('✅ Resposta recebida:', data);
-    
+
     responseEl.textContent = data.reply || 'Sem resposta';
-    
+
+    // Atualiza o nome caso o perfil tenha mudado
+    if (data.identity && data.identity.name) applyIdentity(data.identity.name);
+
     // Atualiza status emocional
     if (data.mood) {
-      document.getElementById('happiness').textContent = data.mood.happiness || 0;
-      document.getElementById('energy').textContent = data.mood.energy || 0;
-      document.getElementById('stress').textContent = data.mood.stress || 0;
+      document.getElementById('happiness').textContent = Math.round(data.mood.happiness || 0);
+      document.getElementById('energy').textContent = Math.round(data.mood.energy || 0);
+      document.getElementById('stress').textContent = Math.round(data.mood.stress || 0);
       
       // Atualiza olhos
       updateEyes(data.mood);
@@ -47,10 +50,64 @@ window.send = async function() {
     
   } catch (err) {
     console.error('❌ ERRO:', err);
-    responseEl.textContent = 'Erro ao falar com a Luna 😣';
+    responseEl.textContent = 'Erro ao falar com o robô 😣';
   }
   
   input.value = '';
+};
+
+// ============ CARGA EL ESTADO GUARDADO (front siempre sincronizado) ============
+async function loadCurrentState() {
+  try {
+    const res = await fetch('/api/current-state');
+    if (!res.ok) return;
+    const data = await res.json();
+    const mood = data.mood || data;
+    if (mood.happiness !== undefined) {
+      document.getElementById('happiness').textContent = Math.round(mood.happiness);
+      document.getElementById('energy').textContent = Math.round(mood.energy);
+      document.getElementById('stress').textContent = Math.round(mood.stress);
+      updateEyes(mood);
+      console.log('📊 Estado del servidor:', mood);
+    }
+    if (data.identity && data.identity.name) {
+      applyIdentity(data.identity.name);
+    }
+  } catch (e) {
+    console.error('❌ No pude cargar el estado:', e);
+  }
+}
+
+// ============ IDENTIDADE / NOME ESCOLHIDO ============
+function applyIdentity(name) {
+  const idName = document.getElementById('identityName');
+  if (idName && name) idName.textContent = name;
+  const h1 = document.querySelector('h1');
+  if (h1 && name) h1.textContent = name;
+  if (name) document.title = name;
+}
+
+window.renameRobot = async function () {
+  const current = (document.getElementById('identityName') || {}).textContent || 'Luna';
+  const name = prompt('Escolha o nome do robô:', current);
+  if (!name || !name.trim()) return;
+  try {
+    const res = await fetch('/api/profile/name', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name.trim() })
+    });
+    const data = await res.json();
+    if (data.success) {
+      applyIdentity(data.identity.name);
+      showNotification('✅ Nome atualizado: ' + data.identity.name, 'success');
+    } else {
+      showNotification('⚠️ ' + (data.error || 'Erro ao mudar o nome'), 'error');
+    }
+  } catch (e) {
+    console.error('❌ Erro ao renomear:', e);
+    showNotification('❌ Não consegui mudar o nome', 'error');
+  }
 };
 
 // ============ FUNÇÃO DOS OLHOS ============
@@ -182,6 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Adiciona botão de salvar
   addSaveButton();
+
+  // Carga o estado emocional real guardado (contexto → front) sin esperar al primer chat
+  loadCurrentState();
   
   // Adiciona estilos CSS dinâmicos
   const style = document.createElement('style');
