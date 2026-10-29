@@ -1,0 +1,19 @@
+{
+  "modules": {
+    "brain": true,
+    "memory": true,
+    "alexa": true,
+    "body": false,
+    "vision": false,
+    "navigation": false,
+    "voice": false,
+    "youtube": false,
+    "publisher": false,
+    "developer_agent": false
+  },
+  "alexa": {
+    "applicationId": "",
+    "invocationName": "robotomia",
+    "brainName": "LunaTech"
+  }
+}

@@ -33,6 +33,28 @@ export function getRecentInteractions(limit = 10) {
   return workingMemory.slice(-limit);
 }
 
+// 🧠 Restaura a memória de trabalho desde o Mongo (últimas interações)
+export function seedWorkingMemoryFromDb(interactions) {
+  if (!Array.isArray(interactions) || interactions.length === 0) return;
+
+  workingMemory = interactions
+    .slice(-MAX_WORKING_MEMORY)
+    .reverse() // do mais antigo ao mais recente
+    .map((i) => ({
+      timestamp: i.createdAt ? new Date(i.createdAt) : new Date(),
+      user: i.user,
+      bot: i.bot,
+      emotion: i.emotion || "NEUTRAL",
+      moodSnapshot: {
+        happiness: i.mood?.happiness ?? 50,
+        stress: i.mood?.stress ?? 50,
+        energy: i.mood?.energy ?? 50
+      }
+    }));
+
+  console.log(`🧠 Memoria de trabalho restaurada: ${workingMemory.length} interações`);
+}
+
 export function clearWorkingMemory() {
   workingMemory = [];
   console.log('🧹 Memória de trabalho limpa');
