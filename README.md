@@ -32,6 +32,12 @@ npm start     # produção
 # MONGO_URI=mongodb://localhost:27017/robotomia
 ```
 
+## Deploy na Render
+
+O arquivo `render.yaml` configura o serviço para fazer deploy automático a cada commit
+na branch `master`. Sincronize o Blueprint no dashboard da Render e configure `MONGO_URI`
+e `GROQ_API_KEY` como variáveis secretas do serviço; não coloque esses valores no repositório.
+
 ## API (resumen)
 
 | Método | Ruta | Função |

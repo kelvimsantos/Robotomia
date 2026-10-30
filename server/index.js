@@ -216,7 +216,7 @@ const startServer = async () => {
     await setupApp();
     
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, "127.0.0.1", () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`🤖 ${getIdentity().name} online em http://localhost:${PORT}`);
       console.log(`💬 Chat: POST /chat`);
       console.log(`📊 Estado: GET /api/current-state`);
