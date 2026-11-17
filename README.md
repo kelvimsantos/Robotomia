@@ -38,6 +38,10 @@ O arquivo `render.yaml` configura o serviço para fazer deploy automático a cad
 na branch `master`. Sincronize o Blueprint no dashboard da Render e configure `MONGO_URI`
 e `GROQ_API_KEY` como variáveis secretas do serviço; não coloque esses valores no repositório.
 
+Para enviar essas duas variáveis do `.env` local à Render pela API, preencha também
+`RENDER_API_KEY` e `RENDER_SERVICE_ID` no `.env` e execute `npm run render:sync-env`.
+O comando atualiza apenas `MONGO_URI` e `GROQ_API_KEY`; nunca envie o `.env` ao Git.
+
 ## API (resumen)
 
 | Método | Ruta | Função |
