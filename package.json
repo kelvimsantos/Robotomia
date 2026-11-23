@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server/index.js",
-    "render:sync-env": "node scripts/sync-render-env.js",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "test": "node --test"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
