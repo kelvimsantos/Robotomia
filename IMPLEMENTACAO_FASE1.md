@@ -1,6 +1,6 @@
 # Execução da Fase 1 — Brain + Memory
 
-Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOTOMIA.md` em entregas pequenas e verificáveis. A regra é evoluir sobre o sistema atual: preservar rotas e formatos existentes, adicionar testes antes de refatorações maiores e migrar estado em etapas.
+Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOTOMIA.md` em entregas pequenas e verificáveis. A regra é evoluir sobre o sistema atual: preservar rotas e formatos e avançar em alterações pequenas, testadas e reversíveis.
 
 ## Princípios de implementação
 
@@ -27,7 +27,7 @@ Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOT
 - [x] Restauração inicial do estado e das interações recentes do MongoDB.
 - [x] Fallback offline do provedor de IA.
 - [x] Endpoint de saúde `/health`.
-- [ ] Testes automatizados que protejam esses fluxos. (A existência de scripts de teste manuais não equivale a uma suíte de regressão.)
+- [ ] Testes automatizados que protejam esses fluxos. Os primeiros testes unitários foram adicionados; pendente executar `npm test` no ambiente do projeto.
 
 ## Etapa 1 — Linha de base e segurança
 
@@ -37,6 +37,15 @@ Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOT
 - [ ] Garantir validação de payload e limites para todas as rotas que mudam estado.
 - [ ] Adicionar logs estruturados sem chaves, prompts sensíveis ou conteúdo desnecessário.
 - [ ] Verificar configuração e saúde do deploy sem alterar os valores secretos existentes.
+
+### Primeiros testes adicionados
+
+- `test/emotion.test.js`: deltas limitados, impacto de emoção conhecida, impacto neutro e clamp na restauração.
+- `test/unifiedMemory.test.js`: armazenamento, limite de memória de trabalho e seleção das interações recentes.
+- `test/topicAnalyzer.test.js`: extração de tópico, limite, categorias conhecidas e entradas vazias.
+- Script `npm test`: executa os testes com o runner nativo `node:test`.
+
+> Status: testes escritos, ainda não executados nesta sessão. Não marcar como aprovados até rodar `npm test` e corrigir eventuais falhas.
 
 ## Etapa 2 — Estado em RAM como fonte operacional
 
@@ -98,7 +107,7 @@ Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOT
 
 - [ ] Criar um construtor de contexto testável, independente de HTTP e de acesso ao banco.
 - [ ] Enviar somente: mensagem atual, estado validado, traços/preferências, experiência, poucos tópicos e memórias selecionadas.
-- [ ] Separar instruções estáveis, contexto recuperado e pedido do usuário para reduzir ambiguidades.
+- [ ] Separar instruções estáveis, contexto recuperado e pedido do usuário simplificado.
 - [ ] Definir esquema versionado de saída estruturada e validar cada campo.
 - [ ] Tratar resposta da IA como proposta: cálculos, permissões, persistência e ações são controlados pelo backend.
 - [ ] Limitar tamanho de mensagens, memória e resposta para proteger latência e custos.
@@ -119,8 +128,9 @@ Este checklist transforma a visão de `ARQUITETURA.md`, `ideia.md` e `PLAN_ROBOT
 
 ## Próximo incremento recomendado
 
-1. Criar testes de regressão para o fluxo atual antes de refatorar.
-2. Medir e registrar chamadas atuais ao Mongo para definir cache/invalidação sem adivinhar.
-3. Consolidar estado operacional em RAM mantendo Mongo como persistência.
-4. Formalizar o construtor de contexto e o esquema validado da resposta da IA.
-5. Implementar métricas de assuntos como estimativas e só então apresentá-las como familiaridade.
+1. Executar `npm test` e corrigir eventuais falhas.
+2. Adicionar testes para identidade, personalidade, persistência e contratos de API.
+3. Medir e registrar chamadas atuais ao Mongo para definir cache/invalidação sem adivinhar.
+4. Consolidar estado operacional em RAM mantendo Mongo como persistência.
+5. Formalizar o construtor de contexto e o esquema validado da resposta da IA.
+6. Implementar métricas de assuntos como estimativas e só então apresentá-las como familiaridade.
